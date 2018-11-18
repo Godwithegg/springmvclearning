@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mybatis配置，mapper代理方式下命名空间要和代理类的名字一样 -->
+<mapper namespace="cn.itcast.mybatis.mapper.UserMapper">
+	
+	<!-- mapper代理下，类名要和代理类方法名一致
+		输入映射要和该方法的输入参数类型一致
+		输出映射要和方法的返回类型一致
+		sql语句结束千万不能有分号
+	 -->
+	<select id="findUserById" parameterType="int" resultType="User">
+		SELECT * FROM user WHERE id=#{id}
+	</select>
+	
+	<select id="findUserByName" parameterType="java.lang.String" resultType="User">
+		SELECT * FROM user WHERE username=#{username}
+	</select>
+	
+	<insert id="insertUser" parameterType="User">
+		INSERT INTO user(username,sex,birthday,address) VALUES(#{username},#{sex},#{birthday},#{address})
+	</insert>
+	
+	<delete id="deleteUser" parameterType="int">
+		DELETE FROM user WHERE id=#{id}
+	</delete>
+</mapper>
