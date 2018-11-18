@@ -5,19 +5,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="test">
-	<select id="findUserById" parameterType="int" resultType="cn.itcast.mybatis.po.User">
+	<select id="findUserById" parameterType="int" resultType="user">
 		select * from user where id=#{id}
 	</select>
-	<select id="findUserByName" parameterType="java.lang.String" resultType="cn.itcast.mybatis.po.User"> 
+	<select id="findUserByName" parameterType="java.lang.String" resultType="user"> 
 		SELECT * FROM USER WHERE username LIKE '%${value}'
 	</select>
-	<insert id="insertUser">
+	<insert id="insertUser" parameterType="user">
 		INSERT INTO USER(username,birthday,sex,address)  value(#{username},#{birthday},#{sex},#{address})
 	</insert>
 	<delete id="deleteUser" parameterType="java.lang.Integer">
 		DELETE FROM USER WHERE id=#{id}
 	</delete>
-	<update id="updateUser" parameterType="cn.itcast.mybatis.po.User">
+	<update id="updateUser" parameterType="user">
 		 UPDATE USER SET username=#{username},birthday=#{birthday},sex=#{sex},address=#{address} 
 		 WHERE id=#{id}
 	</update>

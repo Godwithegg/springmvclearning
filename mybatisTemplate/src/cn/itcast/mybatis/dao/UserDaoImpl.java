@@ -22,7 +22,14 @@ public class UserDaoImpl implements UserDao
 		sqlSession.close();
 		return user;
 	}
-
+	@Override
+	public List<User> findUserByNmae(String name) throws Exception
+	{
+		SqlSession sqlSession = this.sqlSessionFactory.openSession();
+		List<User> list = sqlSession.selectList("test.findUserByName",name);
+		sqlSession.close();
+		return list;
+	}
 	@Override
 	public void insertUser(User user) throws Exception
 	{
@@ -41,11 +48,6 @@ public class UserDaoImpl implements UserDao
 		sqlSession.close();
 		
 	}
-	@Override
-	public List<User> findUserByNmae(String name) throws Exception
-	{
-		SqlSession sqlSession = this.sqlSessionFactory.openSession();
-		return sqlSession.selectList("test.findUserByName",name);
-	}
+
 	
 }
