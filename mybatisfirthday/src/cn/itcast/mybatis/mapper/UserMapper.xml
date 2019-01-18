@@ -13,7 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 开启本mapper的namespace下的二级缓存 -->
 	<!-- type：指定cache接口实现类的类型，mybatis默认使用Perpetualcache
 	要和ehcache，需要配置type为ehcache实现类 -->
-	<cache type=""/>
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
 
 	<!-- 定义sql片段 
 		定义sql是基于单表来定义，这样的话sql片段可重用性才高

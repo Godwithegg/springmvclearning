@@ -17,6 +17,6 @@
 	<classpathentry kind="lib" path="lib/slf4j-api-1.7.5.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.7.5.jar"/>
 	<classpathentry kind="lib" path="lib/ehcache-core-2.6.5.jar"/>
-	<classpathentry kind="lib" path="lib/mybatis-ehcache-1.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/mybatis-ehcache-1.0.2.jar" sourcepath="C:/Users/danhuang/Desktop/spingmvc/spring3.2.0source/spring-webmvc-3.2.0.RELEASE-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
