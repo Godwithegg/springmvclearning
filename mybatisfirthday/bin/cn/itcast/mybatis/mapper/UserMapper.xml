@@ -10,6 +10,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 -->
 
 <mapper namespace="cn.itcast.mybatis.mapper.UserMapper">
+	<!-- 开启本mapper的namespace下的二级缓存 -->
+	<cache/>
+
 	<!-- 定义sql片段 
 		定义sql是基于单表来定义，这样的话sql片段可重用性才高
 		再sql片段中不要包含where

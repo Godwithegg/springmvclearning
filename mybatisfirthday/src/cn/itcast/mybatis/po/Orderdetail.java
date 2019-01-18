@@ -8,8 +8,19 @@ public class Orderdetail {
     private Integer itemsId;
 
     private Integer itemsNum;
+    
+    private Items items;
+    public Items getItems()
+	{
+		return items;
+	}
 
-    public Integer getId() {
+	public void setItems(Items items)
+	{
+		this.items = items;
+	}
+
+	public Integer getId() {
         return id;
     }
 
