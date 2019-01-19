@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 配置mapper -->
+	<!-- 这里不需要配mapper了，由于使用了spring和mybatis来进行mapper的扫描 -->
+	<!-- 不配置，但是必须遵循mapper.xml.java是同名的，且在同一个目录 -->
+
+	<!-- 全局的setting配置，根据需要在加 -->
+	
+	<!-- 配置别名,批量扫描 -->
+	<typeAliases>
+		<package name="cn.itcast.ssm.po"/>
+	</typeAliases>
+</configuration>
