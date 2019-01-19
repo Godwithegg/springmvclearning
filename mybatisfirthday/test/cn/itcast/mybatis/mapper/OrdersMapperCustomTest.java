@@ -122,10 +122,10 @@ public class OrdersMapperCustomTest
 		sqlSession1.close();
 	
 		//使用sqlsession3执行commit操作
-		UserMapper userMapper3 = sqlSession3.getMapper(UserMapper.class);
-		userMapper3.deleteUser(2);
-		sqlSession3.commit();
-		sqlSession3.close();
+//		UserMapper userMapper3 = sqlSession3.getMapper(UserMapper.class);
+//		userMapper3.deleteUser(2);
+//		sqlSession3.commit();
+//		sqlSession3.close();
 		
 		//第二次发起请求，查询id为1的用户
 		User user2 = userMapper2.findUserById(1);
