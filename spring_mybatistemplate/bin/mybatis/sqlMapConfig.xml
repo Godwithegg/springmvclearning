@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration 
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+
+<!-- 全局定义参数 -->
+ 	<settings>
+		<!-- 打开延迟加载的开关 -->
+		<!-- 将积极加载改为消极加载,即按需加载 -->
+		<setting name="lazyLoadingEnabled" value="true"/>
+		<setting name="aggressiveLazyLoading" value="false"/>
+		<setting name="cacheEnabled" value="true" />
+	</settings>
+
+ 
+ <!-- 自定义别名 -->
+ <typeAliases>
+ <!-- 针对单个别名的定义 -->
+ 	<!-- <typeAlias type="cn.itcast.mybatis.po.User" alias="user"/> -->
+ 
+ <!-- 批量定义别名，别名的名字就是类名（首字母大小写都可以) -->
+ <package name="cn.itcast.ssm.po"/>
+ </typeAliases>
+ 
+	
+	<mappers>
+		<mapper resource="sqlmap/User.xml"/> 
+		
+		<!-- <mapper resource="mapper/UserMapper.xml"/>
+		 -->
+	 	
+	 	<!-- 批量加载 mybatis自动扫描包下面的mapper接口，然后自动加载，
+	 	同时上边的规范也要遵循-->
+	 	
+	 <!-- 和spring整合后，使用mapper扫描，这里不需要配置 -->
+	 <!--
+	 	<package name="cn.itcast.ssm.mapper"/>
+	 -->
+	</mappers>
+	
+	
+</configuration>

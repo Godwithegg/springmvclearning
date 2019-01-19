@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间为mapper的接口地址 
+	mapper.java中的方法名和mapper.xml中的statement的id一致
+	mapper.java中接口的参数类型和mapper.xml中parameterType的类型一致
+	mapper.java中接口的返回类型和mapper.xml中resultType的类型一致
+-->
+
+<mapper namespace="cn.itcast.ssm.mapper.UserMapper">
+	<!-- 开启本mapper的namespace下的二级缓存 -->
+	<!-- type：指定cache接口实现类的类型，mybatis默认使用Perpetualcache
+	要和ehcache，需要配置type为ehcache实现类 -->
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+	<!-- 定义sql片段 
+		定义sql是基于单表来定义，这样的话sql片段可重用性才高
+		再sql片段中不要包含where
+	-->
+	<sql id="query_user_where">
+		<if test="userCustom!=null">
+			<if test="userCustom.sex!=null and userCustom.sex!=''">
+				and user.sex=#{userCustom.sex}
+			</if>
+			<if test="userCustom.username!=null and userCustom.username!=''">
+				and user.username=#{userCustom.username}
+			</if>
+			<if test="ids!=null">
+				<!-- 使用foreach来遍历传入的ids 
+					collection:指定对象集合中的属性名
+					item:每次遍历对象中
+					open:开始遍历时拼接的串
+					close:结束遍历时拼接的串
+					separator:遍历的两个对象中间需要拼接的串
+				-->
+				<foreach collection="ids" item="user_id" open="AND(" close=")" separator="OR" >
+					<!-- 每次遍历所需要拼接的串 -->
+					id=#{user_id}
+				</foreach>
+			</if>
+		</if>
+	</sql>
+	<!-- 用户信息的综合查询 -->
+	<select id="findUserList" parameterType="cn.itcast.ssm.po.UserQueryVo" resultType="cn.itcast.ssm.po.UserCustom">
+		<!-- 只有列名和pojo中的属性名一致时才能映射成功 -->
+		SELECT * FROM user  
+	
+	<!-- WHERE可以自动去掉条件中的第一个and -->
+	<where>
+		<include refid="query_user_where"></include>
+	</where>
+	
+	</select>
+	<!-- 列表总数查询，和上面那条配合使用 -->
+	<select id="findUserCount" parameterType="cn.itcast.ssm.po.UserQueryVo" resultType="int">
+		SELECT COUNT(*) FROM user WHERE user.sex=#{userCustom.sex} AND user.username LIKE '%${userCustom.username}%'
+		<where>
+			<include refid="query_user_where"></include>
+		</where>
+	</select>
+
+	<select id="findUserById" parameterType="int" resultType="user">
+		select * from user where id=#{id}
+	</select>
+	
+	<!-- 使用resultMap来进行输出映射 
+	将这些别名如_id和User类作一个映射
+	type：resultmap最终映射的java对象类型
+	-->
+	<resultMap type="user" id="userResultMap">
+		<!-- 
+			id表示查询结果中集合的唯一标识，如主键
+			column:查询出来的列名
+			property:type指定的pojo类型中的属性名
+			最终resultmap对column和property作一个映射关系
+	 	-->
+	 	<id column="_id" property="id"/>
+	 	<!-- 
+	 		对普通名映射定义
+	 	 -->
+	 	<result column="username_" property="username"/>
+	</resultMap>
+	
+	<!-- 如果resultmap在其他文件中，需要加namespace -->
+	<select id="findUserByIdResultMap" parameterType="int" resultMap="userResultMap">
+		SELECT id _id,username username_ FROM user WHERE id=#{value}
+	</select>
+	
+	<select id="findUserByName" parameterType="java.lang.String" resultType="user"> 
+		SELECT * FROM USER WHERE username LIKE '%${value}'
+	</select>
+	<insert id="insertUser" parameterType="user">
+		INSERT INTO USER(username,birthday,sex,address)  value(#{username},#{birthday},#{sex},#{address})
+	</insert>
+	<delete id="deleteUser" parameterType="java.lang.Integer">
+		DELETE FROM USER WHERE id=#{id}
+	</delete>
+	<update id="updateUser" parameterType="user">
+		 UPDATE USER SET username=#{username},birthday=#{birthday},sex=#{sex},address=#{address} 
+		 WHERE id=#{id}
+	</update>
+</mapper>
