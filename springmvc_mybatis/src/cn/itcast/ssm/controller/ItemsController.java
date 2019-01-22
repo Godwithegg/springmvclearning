@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cn.itcast.ssm.po.Items;
 import cn.itcast.ssm.po.ItemsCustom;
+import cn.itcast.ssm.po.ItemsQueryVo;
 import cn.itcast.ssm.service.ItemsService;
 
 /**
@@ -36,12 +37,12 @@ public class ItemsController
 	
 	//商品查询
 	@RequestMapping("/queryItems")
-	public ModelAndView queryItems(HttpServletRequest request) throws Exception
+	public ModelAndView queryItems(HttpServletRequest request,ItemsQueryVo itemsQueryVo) throws Exception
 	{
 		//测试forward后request是否可以共享
 		System.out.println(request.getParameter("id"));
 		//调用service查找数据库，查询商品列表，这里使用静态数据模拟
-		List<ItemsCustom> itemsList = itemsService.findItemsList(null);
+		List<ItemsCustom> itemsList = itemsService.findItemsList(itemsQueryVo);
 		
 		
 		ModelAndView modelAndView = new ModelAndView();
