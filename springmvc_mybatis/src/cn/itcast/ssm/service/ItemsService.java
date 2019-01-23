@@ -18,4 +18,8 @@ public interface ItemsService
 	public ItemsCustom findItemsById(int id) throws Exception;
 	//修改商品信息,id是要修改商品的id，和修改商品的信息
 	public void updateItems(Integer id,ItemsCustom itemsCustom) throws Exception;
+	//删除商品信息，id是要删除的商品id
+	public void deleteItems(Integer items_id) throws Exception;
+	
+	public void updateList(List<ItemsCustom> list) throws Exception; 
 }

@@ -93,8 +93,49 @@ public class ItemsController
 		//return "redirect:queryItems.action";
 		//页面转发
 		//return "forward:queryItems.action";
+		return "forward:queryItems.action";
+	}
+	
+	//批量删除 商品信息
+	@RequestMapping("/deleteItems")
+	public String deleteItems(Integer[] items_id) throws Exception
+	{
+		//调用service批量删除商品
+		//itemsService.d
+	
+		for (Integer pids : items_id)
+		{
+			itemsService.deleteItems(pids);
+		}
+		//删除这部分不能实现，不知道为什么
+		
 		return "success";
 	}
 	
+	//批量修改商品页面，将商品信息查询出来，在页面中可以编辑商品信息
+	@RequestMapping("/editItemsQuery")
+	public ModelAndView editItemsQuery(HttpServletRequest request,ItemsQueryVo itemsQueryVo) throws Exception
+	{
+		//调用service查找数据库，查询商品列表，这里使用静态数据模拟
+		List<ItemsCustom> itemsList = itemsService.findItemsList(itemsQueryVo);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("itemsList",itemsList);
+		modelAndView.setViewName("items/editItemsQuery");
+		return modelAndView;
+	}
+	
+	//批量修改商品提交
+	//通过ItemsQueryVo接收批量提交的商品信息，将商品信息存储到ItemsQuery中itemsList属性中。
+	@RequestMapping("/editItemsAllSubmit")
+	public String editItemsAllSubmit(ItemsQueryVo itemsQueryVo) throws Exception
+	{
+		List<ItemsCustom> list = itemsQueryVo.getItemsList();
+		for(ItemsCustom itemsCustom : list)
+		{
+			itemsService.updateItems(itemsCustom.getId(), itemsCustom);
+		}
+		return "redirect:queryItems.action";
+	}
 	
 }

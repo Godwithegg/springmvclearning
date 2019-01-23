@@ -44,7 +44,7 @@ public class ItemsServiceImpl implements ItemsService
 	}
 	@Override
 	public void updateItems(Integer id, ItemsCustom itemsCustom) throws Exception
-	{
+	{ 
 		//添加业务校验，通常在service接口对关键参数进行校验
 		//校验id是否位空，如果为空抛出异常
 		
@@ -52,6 +52,19 @@ public class ItemsServiceImpl implements ItemsService
 		//要求必须传入id
 		itemsCustom.setId(id);
 		itemsMapper.updateByPrimaryKeyWithBLOBs(itemsCustom);
+	}
+	@Override
+	public void deleteItems(Integer items_id) throws Exception
+	{
+		itemsMapper.deleteByPrimaryKey(items_id);
+	}
+	@Override
+	public void updateList(List<ItemsCustom> list) throws Exception
+	{
+		for (ItemsCustom itemsCustom : list)
+		{
+			itemsMapper.updateByPrimaryKeyWithBLOBs(itemsCustom);
+		}
 	}
 
 }
