@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8" isELIgnored="false"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
@@ -13,7 +13,13 @@
 		document.itemsForm.action="${pageContext.request.contextPath}/items/editItemsQuery.action";
 		document.itemsForm.submit();	
 	}
-
+/*
+	function deleteItems()
+	{
+		document.itemsForm.action="${pageContext.request.contextPath}/items/deleteItems.action";
+		document.itemsForm.submit();	
+	}
+*/
 	function queryItems()
 	{
 		var isDel = confirm("蛋黄最帅？");
@@ -38,13 +44,13 @@
 <td>
 <input type="button" value="查询" onclick="queryItems()"/>
 <input type="button" value="进行批量修改" onclick="editItemsQuery()"/>
+<!-- <input type="button" value="进行批量删除" onclick="deleteItems()"/> -->
 </td>
 </tr>
 </table>
 商品列表：
 <table width="100%" border=1>
 <tr>
-	<td>选择</td>
 	<td>商品名称</td>
 	<td>商品价格</td>
 	<td>生产日期</td>
@@ -53,7 +59,7 @@
 </tr>
 <c:forEach items="${itemsList}" var="item">
 <tr>
-	<td><input type="checkbox" name="items_id" value="${item.id} }"> </td>
+	<!-- <td><input type="checkbox" name="items_id" value="${item.id}"/></td> -->
 	<td>${item.name }</td>
 	<td>${item.price}</td>
 	<td><fmt:formatDate value="${item.createtime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>

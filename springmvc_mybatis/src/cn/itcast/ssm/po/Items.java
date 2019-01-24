@@ -2,15 +2,22 @@ package cn.itcast.ssm.po;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Items {
     private Integer id;
-
+    //校验名称在1到30个字符中间
+    //message提示校验出错显示的信息
+    @Size(min=1,max=30,message="{items.name.length.error}")
     private String name;
 
     private Float price;
 
     private String pic;
 
+    //非空校验
+    @NotNull(message="{items.createtime.isNULL}")
     private Date createtime;
 
     private String detail;

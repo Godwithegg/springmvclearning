@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8" isELIgnored="false"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
@@ -11,6 +11,12 @@
 </head>
 <body> 
 
+<!-- 显示错误信息 -->
+<c:if test="${allErrors!=null}">
+<c:forEach items="${allErrors }" var="error">
+	无效修改:${error.defaultMessage}<br/>
+</c:forEach>
+</c:if>
 <form id="itemForm" action="${pageContext.request.contextPath }/items/editItemsSubmit.action" method="post" >
 <input type="hidden" name="id" value="${itemsCustom.id }"/>
 修改商品信息：

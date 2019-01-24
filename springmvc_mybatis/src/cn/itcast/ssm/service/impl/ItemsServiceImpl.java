@@ -54,17 +54,11 @@ public class ItemsServiceImpl implements ItemsService
 		itemsMapper.updateByPrimaryKeyWithBLOBs(itemsCustom);
 	}
 	@Override
-	public void deleteItems(Integer items_id) throws Exception
+	public void deleteItems(Integer id) throws Exception
 	{
-		itemsMapper.deleteByPrimaryKey(items_id);
+		itemsMapper.deleteByPrimaryKey(id);
 	}
-	@Override
-	public void updateList(List<ItemsCustom> list) throws Exception
-	{
-		for (ItemsCustom itemsCustom : list)
-		{
-			itemsMapper.updateByPrimaryKeyWithBLOBs(itemsCustom);
-		}
-	}
+
+
 
 }

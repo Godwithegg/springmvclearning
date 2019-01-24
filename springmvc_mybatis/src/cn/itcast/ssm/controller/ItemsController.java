@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -84,30 +87,50 @@ public class ItemsController
 	}
 	
 	//商品信息修改提交
+	//在需要校验的pojo前边添加@validated，在需要校验的pojo后边添加BindingResult bindingResult来接收校验出错的信息
+	//注意：@validated和BindingResult bindingResult是配对出现，并且形参顺序是固定的，一前一后
 	@RequestMapping("/editItemsSubmit")
-	public String editItemsSubmit(HttpServletRequest request,Integer id,ItemsCustom itemsCustom) throws Exception
+	public String editItemsSubmit(Model model,HttpServletRequest request,
+			Integer id,@Validated ItemsCustom itemsCustom,BindingResult bindingResult) throws Exception
 	{
+		//获取校验错误信息
+		if(bindingResult.hasErrors())
+		{
+			//输出错误信息
+			 List<ObjectError> allErrors = bindingResult.getAllErrors();
+			 System.out.println(allErrors.size());
+			 for (ObjectError objectError : allErrors)
+			{
+				//输出错误信息
+				 System.out.println(objectError.getDefaultMessage());
+			}
+			 model.addAttribute("allErrors", allErrors);
+			 //出错重新回到编辑页面
+			 return "items/editItems";
+		}
+		
 		//调用service更新商品信息，页面需要将商品信息传到此方法
 		itemsService.updateItems(id, itemsCustom);
 		//重定向到商品查询的页面
 		//return "redirect:queryItems.action";
 		//页面转发
 		//return "forward:queryItems.action";
-		return "forward:queryItems.action";
+		return "redirect:queryItems.action";
 	}
 	
+	//由于有外键约束，因此不能进行删除
 	//批量删除 商品信息
 	@RequestMapping("/deleteItems")
-	public String deleteItems(Integer[] items_id) throws Exception
+	public String deleteItemsSubmit(Integer[] items_id) throws Exception
 	{
 		//调用service批量删除商品
 		//itemsService.d
 	
-		for (Integer pids : items_id)
+		for (int pids : items_id)
 		{
 			itemsService.deleteItems(pids);
 		}
-		//删除这部分不能实现，不知道为什么
+		
 		
 		return "success";
 	}
