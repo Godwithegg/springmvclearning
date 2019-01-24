@@ -37,9 +37,13 @@ public class ItemsServiceImpl implements ItemsService
 	public ItemsCustom findItemsById(int id) throws Exception
 	{
 		Items items = itemsMapper.selectByPrimaryKey(id);
-		ItemsCustom itemsCustom = new ItemsCustom();
+		ItemsCustom itemsCustom = null;
 		//将Items里面的内容拷贝到itemscustom中
-		BeanUtils.copyProperties(items, itemsCustom);
+		if(items != null)
+		{
+			itemsCustom = new ItemsCustom();
+			BeanUtils.copyProperties(items, itemsCustom);
+		}
 		return itemsCustom;
 	}
 	@Override

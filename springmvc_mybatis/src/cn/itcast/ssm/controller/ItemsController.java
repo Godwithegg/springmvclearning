@@ -4,7 +4,9 @@ package cn.itcast.ssm.controller;
  */
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,11 +16,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import cn.itcast.ssm.controller.validation.ValidGroup1;
+import cn.itcast.ssm.exception.CustomException;
 import cn.itcast.ssm.po.Items;
 import cn.itcast.ssm.po.ItemsCustom;
 import cn.itcast.ssm.po.ItemsQueryVo;
@@ -37,6 +42,18 @@ public class ItemsController
 {
 	@Autowired
 	private ItemsService itemsService;
+	
+	//商品分类
+	//itemTypes表示最终将方法返回值放在request中的key
+	@ModelAttribute("itemtypes")
+	public Map<String, String> getItemTypes()
+	{
+		Map<String, String> itemTypes = new HashMap<>();
+		itemTypes.put("101", "数码");
+		itemTypes.put("102", "母婴");
+		return itemTypes;
+	}
+	
 	
 	//商品查询
 	@RequestMapping("/queryItems")
@@ -79,20 +96,26 @@ public class ItemsController
 	{
 		//调用service根据id查询商品信息
 		ItemsCustom itemsCustom = itemsService.findItemsById(items_id);
+		//判断商品是否为空,根据id没有查询到商品，抛出异常，提示商品信息不存在
+		if(itemsCustom == null)
+		{
+			throw new CustomException("修改的商品信息不存在");
+		}
 		
 		//通过形参中的moel将model数据传到页面
 		//相当于modelandeview.addobject
-		model.addAttribute("itemsCustom", itemsCustom);
+		model.addAttribute("items", itemsCustom);
 		return "items/editItems";
 	}
 	
 	//商品信息修改提交
 	//在需要校验的pojo前边添加@validated，在需要校验的pojo后边添加BindingResult bindingResult来接收校验出错的信息
 	//注意：@validated和BindingResult bindingResult是配对出现，并且形参顺序是固定的，一前一后
+	//@ModelAttribute可以指定pojo回显到页面在request中的key
 	@RequestMapping("/editItemsSubmit")
 	public String editItemsSubmit(Model model,HttpServletRequest request,
-			Integer id,@Validated ItemsCustom itemsCustom,BindingResult bindingResult) throws Exception
-	{
+			Integer id,@ModelAttribute("items") @Validated(value={ValidGroup1.class}) ItemsCustom itemsCustom,BindingResult bindingResult) throws Exception
+	{                              //指定使用分组的校验
 		//获取校验错误信息
 		if(bindingResult.hasErrors())
 		{
@@ -106,6 +129,11 @@ public class ItemsController
 			}
 			 model.addAttribute("allErrors", allErrors);
 			 //出错重新回到编辑页面
+			 
+			 //model.addAttribute("id", id);
+			 
+			 //@ModelAttribute如果不用这个的话就用下面这个进行回显
+			 //model.addAttribute("items",itemsCustom);
 			 return "items/editItems";
 		}
 		
@@ -151,8 +179,9 @@ public class ItemsController
 	//批量修改商品提交
 	//通过ItemsQueryVo接收批量提交的商品信息，将商品信息存储到ItemsQuery中itemsList属性中。
 	@RequestMapping("/editItemsAllSubmit")
-	public String editItemsAllSubmit(ItemsQueryVo itemsQueryVo) throws Exception
+	public String editItemsAllSubmit(ItemsQueryVo itemsQueryVo,BindingResult bindingResult) throws Exception
 	{
+
 		List<ItemsCustom> list = itemsQueryVo.getItemsList();
 		for(ItemsCustom itemsCustom : list)
 		{

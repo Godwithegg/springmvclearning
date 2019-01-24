@@ -2,6 +2,10 @@ package cn.itcast.ssm.po;
 
 import java.util.List;
 
+import javax.validation.constraints.Size;
+
+import cn.itcast.ssm.controller.validation.ValidGroup1;
+
 /**
  * <p>Description:商品的包装对象
  * @author danhuang
