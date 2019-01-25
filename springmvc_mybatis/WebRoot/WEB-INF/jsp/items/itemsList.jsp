@@ -70,6 +70,7 @@
 	<!-- <td><input type="checkbox" name="items_id" value="${item.id}"/></td> -->
 	<td>${item.name }</td>
 	<td>${item.price}</td>
+	
 	<td><fmt:formatDate value="${item.createtime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 	<td>${item.detail }</td>
 	<td><a href="${pageContext.request.contextPath }/items/editItems.action?id=${item.id}">修改</a></td>

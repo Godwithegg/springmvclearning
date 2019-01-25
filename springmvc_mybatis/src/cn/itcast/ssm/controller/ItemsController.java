@@ -3,10 +3,12 @@ package cn.itcast.ssm.controller;
  * controller的返回值可以是modoelandview，string或者void
  */
 import java.awt.event.ItemListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,7 +22,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
 
 import cn.itcast.ssm.controller.validation.ValidGroup1;
 import cn.itcast.ssm.exception.CustomException;
@@ -113,9 +117,11 @@ public class ItemsController
 	//注意：@validated和BindingResult bindingResult是配对出现，并且形参顺序是固定的，一前一后
 	//@ModelAttribute可以指定pojo回显到页面在request中的key
 	@RequestMapping("/editItemsSubmit")
-	public String editItemsSubmit(Model model,HttpServletRequest request,
-			Integer id,@ModelAttribute("items") @Validated(value={ValidGroup1.class}) ItemsCustom itemsCustom,BindingResult bindingResult) throws Exception
-	{                              //指定使用分组的校验
+	public String editItemsSubmit(Model model,HttpServletRequest request,Integer id,
+			@ModelAttribute("items") @Validated(value={ValidGroup1.class}) ItemsCustom itemsCustom,
+			BindingResult bindingResult,MultipartFile items_pic//接收商品的图片
+			) throws Exception
+	{                             
 		//获取校验错误信息
 		if(bindingResult.hasErrors())
 		{
@@ -133,8 +139,24 @@ public class ItemsController
 			 //model.addAttribute("id", id);
 			 
 			 //@ModelAttribute如果不用这个的话就用下面这个进行回显
-			 //model.addAttribute("items",itemsCustom);
+			 model.addAttribute("items",itemsCustom);
 			 return "items/editItems";
+		}
+		//原始名称
+		String originalFilename = items_pic.getOriginalFilename();
+		System.out.println(originalFilename);
+		//上传图片
+		if(items_pic != null && originalFilename.length()>0 && originalFilename != null)
+		{
+			//存储图片的物理路径
+			String pic_path = "D:\\springmvclearning\\springmvc_mybatis\\image\\";
+			//新的图片名称
+			String newFileName = UUID.randomUUID() + originalFilename.substring(originalFilename.lastIndexOf("."));
+			File newFile = new File(pic_path+newFileName);
+			//将内存中的数据写入磁盘
+			items_pic.transferTo(newFile);
+			//将新的图片名称写到itemsCustom中
+			itemsCustom.setPic(newFileName);
 		}
 		
 		//调用service更新商品信息，页面需要将商品信息传到此方法
@@ -144,6 +166,7 @@ public class ItemsController
 		//页面转发
 		//return "forward:queryItems.action";
 		return "redirect:queryItems.action";
+		
 	}
 	
 	//由于有外键约束，因此不能进行删除

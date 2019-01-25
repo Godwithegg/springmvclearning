@@ -55,7 +55,8 @@ public class ItemsServiceImpl implements ItemsService
 		//更新商品信息,使用这个可以根据id更新Items表中的所有字段，包括大文本类型
 		//要求必须传入id
 		itemsCustom.setId(id);
-		itemsMapper.updateByPrimaryKeyWithBLOBs(itemsCustom);
+		//itemsMapper.updateByPrimaryKeyWithBLOBs(itemsCustom);
+		itemsMapper.updateByPrimaryKeySelective(itemsCustom);
 	}
 	@Override
 	public void deleteItems(Integer id) throws Exception
