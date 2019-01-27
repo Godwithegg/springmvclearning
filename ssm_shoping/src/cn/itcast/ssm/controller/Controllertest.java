@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,30 +24,45 @@ import cn.itcast.ssm.po.ItemsQuery;
 import cn.itcast.ssm.service.ItemsService;
 import cn.itcast.ssm.service.impl.ItemsServiceImpl;
 
-/**
- * 
-* 项目名称：ssm_shoping 
-* 类名称：Controller 
-* 类描述： 
-* 创建人：林灿煌
-* 创建时间：2019年1月27日 下午12:37:04 
-* @version
- */
 
 @Controller
+@RequestMapping("/items")
 public class Controllertest 
 {
 	@Autowired
-	private ItemsService ItemsService;
-	
+	private ItemsService itemsService;
 	
 	@RequestMapping("/queryItems")
-	public ModelAndView queryItems() throws Exception
+	public ModelAndView queryItems(HttpServletRequest httpServletRequest,ItemsQuery itemsQuery) throws Exception
 	{
-		List<ItemsCustom> itemsList = ItemsService.findItemsList(null);
+		List<ItemsCustom> itemsList = itemsService.findItemsList(itemsQuery);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("itemsList",itemsList);
 		modelAndView.setViewName("items/itemsList");
 		return modelAndView;
+	}
+	
+	@RequestMapping("/editItems")
+	public String editItems(Model model,Integer id) throws Exception
+	{
+		ItemsCustom itemsCustom = itemsService.findItemsById(id);
+		model.addAttribute("item", itemsCustom);
+		return "/items/editItems";
+	}
+	
+	@RequestMapping("/editItemsSubmit")
+	public String editItemsSubmit(Model model,HttpServletRequest request,Integer id,@ModelAttribute("item") @Validated ItemsCustom itemsCustom,BindingResult bindingResult) throws Exception
+	{
+		if(bindingResult.hasErrors())
+		{
+			model.addAttribute("itemsCustom", itemsCustom);
+			List<ObjectError> allErrors = bindingResult.getAllErrors();
+			model.addAttribute("allErrors",allErrors);
+			return "/items/editItems";
+		}
+		
+		itemsService.updateItems(id, itemsCustom);
+		
+		return "redirect:queryItems.action";
 	}
 }

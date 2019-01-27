@@ -7,6 +7,6 @@ import cn.itcast.ssm.po.ItemsQuery;
 
 public interface ItemsMapperCustom
 {
-	//商品查询清单
+	//鏌ョ湅鍟嗗搧鍒楄〃
 	public List<ItemsCustom> findItemsList(ItemsQuery itemsQuery) throws Exception;
 }

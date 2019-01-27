@@ -2,11 +2,15 @@ package cn.itcast.ssm.po;
 
 import java.util.Date;
 
+import javax.validation.constraints.Size;
+
+
 public class Items {
     private Integer id;
-
+    
+    @Size(min=1,max=15,message="{items.name.length.error}")
     private String name;
-
+    
     private Float price;
 
     private String pic;

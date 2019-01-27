@@ -16,13 +16,49 @@
 	
 
 	<context:component-scan base-package="cn.itcast.ssm.controller"/>
-	<mvc:annotation-driven></mvc:annotation-driven>
+	<mvc:annotation-driven conversion-service="conversionService" validator="validator"/>
+	
+	
 	<!-- 视图解析器 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<!-- 配置jsp路径的前缀 -->
 		<property name="prefix" value="/WEB-INF/jsp/"></property>
 		<!-- 配置jsp路径的后缀 -->
 		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+		<!-- 自定义参数绑定 -->
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<!-- 转换器 -->
+		<property name="converters">
+			<list>
+				<!-- 日期类型转化 -->
+				<bean class="cn.itcast.ssm.controller.converter.CustomDateConverter"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 配置校验器 -->
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<!-- hibernate校验器的配置 -->
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>	
+		<!-- 指定校验文件使用的资源文件，然后配置默认信息，如果不指定的话使用的使classpath下的ValidationMessages.properties -->
+		<property name="validationMessageSource" ref="messageSource"/>
+	</bean>
+	<!-- 自定义校验文件的配置文件 -->
+	<bean id="messageSource" 
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<!-- 资源文件名 -->
+		<property name="basenames">
+			<list>
+				<value>classpath:CustomValidationMessage</value>			
+			</list>
+		</property>	
+		<!-- 资源编码格式 -->
+		<property name="defaultEncoding" value="utf-8"/>
+		<!-- 对资源文件内容缓存时间，单位秒 -->
+		<property name="cacheSeconds" value="120"/>
 	</bean>
 	
 </beans>

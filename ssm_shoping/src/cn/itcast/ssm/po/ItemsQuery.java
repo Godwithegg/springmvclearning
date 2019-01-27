@@ -4,20 +4,20 @@ import java.util.List;
 
 /**
  * 
-* ÏîÄ¿Ãû³Æ£ºssm_shoping 
-* ÀàÃû³Æ£ºItemsQuery 
-* ÀàÃèÊö£ºÉÌÆ·µÄ°ü×°¶ÔÏó 
-* ´´½¨ÈË£ºÁÖ²Ó»Í
-* ´´½¨Ê±¼ä£º2019Äê1ÔÂ27ÈÕ ÏÂÎç3:49:54 
+* é¡¹ç›®åç§°ï¼šssm_shoping 
+* ç±»åç§°ï¼šItemsQuery 
+* ç±»æè¿°ï¼šå•†å“çš„åŒ…è£…å¯¹è±¡ 
+* åˆ›å»ºäººï¼šæ—ç¿ç…Œ
+* åˆ›å»ºæ—¶é—´ï¼š2019å¹´1æœˆ27æ—¥ ä¸‹åˆ11:57:02 
 * @version
  */
 public class ItemsQuery
 {
-	//ÉÌÆ·ĞÅÏ¢
+	//å•†å“ä¿¡æ¯
 	private Items items;
-	//¿ÉÀ©Õ¹µÄÉÌÆ·ĞÅÏ¢Àà
+	//å•†å“çš„æ‹“å±•ä¿¡æ¯
 	private ItemsCustom itemsCustom;
-	//ÉÌÆ·Çåµ¥
+	//å•†å“åˆ—è¡¨
 	private List<ItemsCustom> itemsList;
 	public Items getItems()
 	{
