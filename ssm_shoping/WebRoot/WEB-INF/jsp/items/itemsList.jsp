@@ -18,10 +18,18 @@
 	}
 
 </script>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>查询商品列表</title>
 </head>
 <body> 
+
+当前用户：${username }<br/>
+<c:if test="${username != null}">
+	<a href="${pageContext.request.contextPath}/logout.action">退出登陆</a>
+</c:if>
+
+
 <form name="itemsForm" action="${pageContext.request.contextPath }/items/queryItems.action" method="post">
 查询条件：
 <table width="100%" border=1>
