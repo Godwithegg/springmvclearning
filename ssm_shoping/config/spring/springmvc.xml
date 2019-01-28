@@ -17,7 +17,8 @@
 
 	<context:component-scan base-package="cn.itcast.ssm.controller"/>
 	<mvc:annotation-driven conversion-service="conversionService" validator="validator"/>
-	
+	<mvc:resources location="/js/" mapping="/js/**"/>
+	<mvc:resources location="/img/" mapping="/img/**"/>
 	
 	<!-- 视图解析器 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -64,4 +65,21 @@
 	<!-- 全局异常处理器，只要实现了HandlerExceptionResolver接口就是全局异常处理器 -->
 	<bean class="cn.itcast.ssm.exception.CustomExceptionResolver"/>
 	
+	<!-- 配置上传文件 -->
+	<bean id="multipartResolver"
+			class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设置文件最大尺寸为5MB -->
+		<property name="maxUploadSize">
+			<value>5242880</value>
+		</property>		
+	</bean>
+	
+	<!-- 全局配置拦截器 -->
+	<mvc:interceptors>
+		<!-- 多个拦截器顺序执行,如果还有第二个拦截器则就多一个mvc:interceptor的配置 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="cn.itcast.ssm.interceptor.HandlerInterceptor1"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 </beans>

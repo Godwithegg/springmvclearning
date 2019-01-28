@@ -16,32 +16,54 @@
 </c:if>
 
 <body> 
-<form action="${pageContext.request.contextPath }/items/editItemsSubmit.action" method="post">
+<form action="${pageContext.request.contextPath }/items/editItemsSubmit.action" method="post" enctype="multipart/form-data">
 
 <input type="hidden" name="id" value="${item.id}">
 修改商品信息：
 <table width="100%" border=1>
+
 <tr>
 	<td>商品名称</td>
+	<td>
+	<input type="text" name="name" value="${item.name }">
+	</td>
+</tr>
+<tr>
 	<td>商品价格</td>
+	<td><input type="text" name="price" value="${item.price }"></td>
+</tr>
+<tr>
 	<td>生产日期</td>
-	<td>商品描述</td>
-	<td>操作</td>
+	<td><input type="text" name="createtime"  value="<fmt:formatDate value="${item.createtime}" pattern="yyyy-MM-dd HH:mm:ss"/>"></td>
 </tr>
 
 <tr>
-	
-	<td><input type="text" name="name" value="${item.name }"></td>
-	<td><input type="text" name="price" value="${item.price }"></td>
-	<td><input type="text" name="createtime"  value="<fmt:formatDate value="${item.createtime}" pattern="yyyy-MM-dd HH:mm:ss"/>"></td>
-	<td><input type="text" name="detail" value="${item.detail }"></td>
-	
-	<td><input type="submit" value="提交"></td>
-
+<td>商品图片</td>
+<td>
+	<c:if test="${item.pic != null }">
+		<img src="/pic/${item.pic }" width=100 height=100/><br/>
+	</c:if>
+	<input type="file" name="items_pic"/>
+</td>
 </tr>
+
+<tr>
+	<td>商品描述</td>
+	<td><input type="text" name="detail" value="${item.detail }"></td>
+</tr>
+
+
+<tr>
+	<td colspan="2" align="center"><input type="submit" value="提交"/>
+	</td>
+</tr>
+
 
 
 </table>
+
+
+
 </form>
 </body>
 
