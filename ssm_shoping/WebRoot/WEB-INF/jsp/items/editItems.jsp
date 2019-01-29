@@ -8,6 +8,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>查询商品列表</title>
 </head>
+<style>
+	body{background-color:#f8f8f8;}
+</style>
+
 
 <c:if test="${allErrors != null}">
 	<c:forEach items="${allErrors }" var="error">
