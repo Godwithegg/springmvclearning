@@ -6,6 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>登陆用户</title>
 <style>
+
 	body{
 		background-color:#f8f8f8;
 	}
@@ -20,10 +21,14 @@
 	.tableTheme{
 		width:250px;
 		height:300px;
-		background-color:white;
+		background-color:white;	
 	}
 	.intp{
 		padding:8px;
+	}
+	.tableHead{
+		background:pink;
+	
 	}
 </style>
 
@@ -31,8 +36,9 @@
 <body>
 	
 	<form action="${pageContext.request.contextPath }/login.action" method="post">
-	<div class="divTheme">
-	<table class="tableTheme" border="1" cellspacing="0" cellpadding="0">
+	<table class="tableHead" border="1"  align="center"><tr><td>
+	<table class="tableTheme" cellspacing="0" cellpadding="0">
+		<tr><td><center><h3>登陆</h3></center></td></tr>
 		<tr><td class="tdTxt">
 			<font class="f1">用户名：</font><input name="username" type="text" maxlength="15"/>
 			</td>
@@ -46,7 +52,8 @@
 				<b class="intp"><input type="reset" value="重置"></td></b>
 		</tr>
 	</table>
-	</div>
+	</td></tr>
+	</table>
 	</form>
 </body>
 </html>
