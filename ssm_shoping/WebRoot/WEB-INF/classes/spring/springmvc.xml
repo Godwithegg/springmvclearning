@@ -12,13 +12,16 @@
 		http://www.springframework.org/schema/aop 
 		http://www.springframework.org/schema/aop/spring-aop-4.2.xsd 
 		http://www.springframework.org/schema/tx 
-		http://www.springframework.org/schema/tx/spring-tx-4.2.xsd ">
+		http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 	
 
 	<context:component-scan base-package="cn.itcast.ssm.controller"/>
 	<mvc:annotation-driven conversion-service="conversionService" validator="validator"/>
+	
+
 	<mvc:resources location="/js/" mapping="/js/**"/>
-	<mvc:resources location="/img/" mapping="/img/**"/>
+	<mvc:resources location="/WEB-INF/img/" mapping="/img/**"/>
+	<mvc:resources location="/WEB-INF/static/css/" mapping="/static/css/**"/>
 	
 	<!-- 视图解析器 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
