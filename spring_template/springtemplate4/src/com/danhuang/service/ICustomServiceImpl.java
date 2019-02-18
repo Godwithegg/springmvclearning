@@ -15,7 +15,7 @@ import com.danhuang.dao.ICustomerDao;
  *	4.和生命周期相关的
  *	5.spring的新注解
  *	@Component：相当于配置了一个bean标签，出现在类上，属性：value，含义是指定bean的id，
- *		不写时默认为当前类的短名首字母改小写.
+ *		不写时默认为当前类的短名首字母改小写.原来还有另外的一个特殊处理：当类的名字是以两个或以上的大写字母开头的话，bean的名字会与类名保持一致
  *		注解一般来自于context包
  *		由此直接衍生的三个注解：
  *			@Controller	一般用于表现出
