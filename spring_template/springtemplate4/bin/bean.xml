@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+	
+	<!-- 告知spring在创建容器时要扫描的包。配置 此标签后，spring创建容器就会去指定的包及其子包下找对应的注解
+		标签时在context名称空间里，所以必须先导入context命名空间
+	 -->
+	<context:component-scan base-package="com.danhuang.service"></context:component-scan>
+<context:component-scan base-package="com.danhuang.dao"></context:component-scan>
+</beans>
