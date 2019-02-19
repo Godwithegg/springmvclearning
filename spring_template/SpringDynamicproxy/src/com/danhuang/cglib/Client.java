@@ -1,8 +1,12 @@
-package com.danhuang.proxy;
+package com.danhuang.cglib;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
 
 /**
  * 模拟一个剧组
@@ -33,21 +37,26 @@ public class Client
 		 * 											使用要求：数据已经有了，目的明确，达成过程就是策略
 		 * 										在dbutils中的ResultSetHandler就是策略模式的具体应用。
 		 *			基于子类的动态代理：
-		 *				见另一个包
+		 *				要求：被代理类不能是最终类。不能被final修饰
+		 *				提供者：第三方cglib
+		 *				涉及的类：Enhancer
+		 *				创建代理对象的方法：create（class,Callback)
+		 *				参数的含义：
+		 *					Class：被代理对象的字节码
+		 *					Callback：如何代理。它和invocationhandler作用是一样的。它也是一个接口，我们一般使用该接口的子接口Method'Inter'ceptor
+		 *						在使用时，我们也是创建该接口的匿名内部类。
+		 *				
 		 */
-		IActor proxyActor = (IActor)Proxy.newProxyInstance(Actor.class.getClassLoader(), Actor.class.getInterfaces(), new InvocationHandler()
+		Actor cglibActor = (Actor)Enhancer.create(actor.getClass(), new MethodInterceptor()
 		{
 			/**
-			 * 执行被代理对象的任何方法都会经过该方法，该方法有拦截的功能
-			 * 方法的参数：
-			 * 	Object proxy：代理对象的引用，不一定每次都会用
-			 * 	Method method：当前执行的方法
-			 * 	Object[] args：当前执行方法需要的参数
-			 * 返回值：
-			 * 	当前方法的返回值
+			 * 执行被代理对象的任何方法都会经过该方法。它和基于接口动态代理的invoke的作用是一模一样的
+			 *方法参数：
+			 *	前面三个和invoke方法参数含义作用一致
+			 *		MethodProxy methodProxy：当前执行方法的代理对象，一般不用。
 			 */
 			@Override
-			public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
+			public Object intercept(Object proxy, Method method, Object[] args, MethodProxy methodProxy) throws Throwable
 			{
 				Object rtValue = null;
 				//1.取出执行方法中的参数
@@ -74,7 +83,7 @@ public class Client
 				return rtValue;
 			}
 		});
-		proxyActor.basicAct(20000);
-		proxyActor.dangerAct(50000);
+		cglibActor.basicAct(20000);
+		cglibActor.dangerAct(1000000);
 	}
 }
