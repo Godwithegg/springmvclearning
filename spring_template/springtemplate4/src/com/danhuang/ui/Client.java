@@ -11,7 +11,9 @@ public class Client
 	public static void main(String[] args)
 	{
 		ApplicationContext ac = new ClassPathXmlApplicationContext("bean.xml");
-		ICustomService cs = (ICustomService) ac.getBean("iCustomServiceImpl");
-		System.out.println(cs);
+		ICustomService cs1 = (ICustomService) ac.getBean("ICustomServiceImpl");
+		ICustomService cs2 = (ICustomService) ac.getBean("ICustomServiceImpl");
+		
+		System.out.println(cs1==cs2);
 	}
 }

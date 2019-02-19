@@ -10,5 +10,7 @@
 	<classpathentry kind="lib" path="lib/spring-core-4.2.4.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/spring-expression-4.2.4.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/spring-aop-4.2.4.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-test-4.2.4.RELEASE.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
