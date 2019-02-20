@@ -1,25 +1,25 @@
 package com.danhuang.cglib;
 /**
- * Ò»¸öÑİÔ±
+ * ä¸€ä¸ªæ¼”å‘˜
  * @author danhuang
  *
  */
 public class Actor
 {
 	/**
-	 * »ù±¾µÄÑİ³ö
+	 * åŸºæœ¬çš„æ¼”å‡º
 	 * @param money
 	 */
 	public void basicAct(float money)
 	{
-		System.out.println("CglibÄÃµ½Ç®£¬¿ªÊ¼»ù±¾±íÑİ£º"+money);
+		System.out.println("Cglibæ‹¿åˆ°é’±ï¼Œå¼€å§‹åŸºæœ¬è¡¨æ¼”ï¼š"+money);
 	}
 	/**
-	 * Î£ÏÕµÄ±íÑİ
+	 * å±é™©çš„è¡¨æ¼”
 	 * @param money
 	 */
 	public void dangerAct(float money)
 	{
-		System.out.println("CglibÄÃµ½Ç®£¬¿ªÊ¼Î£ÏÕ±íÑİ"+money);
+		System.out.println("Cglibæ‹¿åˆ°é’±ï¼Œå¼€å§‹å±é™©è¡¨æ¼”"+money);
 	}
 }

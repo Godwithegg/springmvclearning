@@ -1,18 +1,18 @@
 package com.danhuang.proxy;
 
 /**
- * ¾­¼Ã¹«Ë¾¶ÔÇ©Ô¼ÒÕÈËµÄ±ê×¼
+ * ç»æµå…¬å¸å¯¹ç­¾çº¦è‰ºäººçš„æ ‡å‡†
  * @author danhuang
  *
  */
 public interface IActor
 {
 	/**
-	 * »ù±¾µÄÑİ³ö
+	 * åŸºæœ¬çš„æ¼”å‡º
 	 */
 	public void basicAct(float money);
 	/**
-	 * Î£ÏÕµÄÑİ³ö
+	 * å±é™©çš„æ¼”å‡º
 	 */
 	public void dangerAct(float money);
 }
