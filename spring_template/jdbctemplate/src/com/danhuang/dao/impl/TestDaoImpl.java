@@ -2,11 +2,8 @@ package com.danhuang.dao.impl;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 
 import com.danhuang.dao.TestDao;
 import com.danhuang.domain.Test;
@@ -18,24 +15,24 @@ import com.danhuang.domain.Test;
  */
 public class TestDaoImpl implements TestDao
 {
-	private JdbcTemplate jt;
+	private JdbcTemplate jdbcTemplate;
 
-	public void setJt(JdbcTemplate jt)
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate)
 	{
-		this.jt = jt;
+		this.jdbcTemplate = jdbcTemplate;
 	}
 
 	@Override
 	public Test findTestById(Integer testId)
 	{
-		List<Test> tests = jt.query("select * from test where id=?",new BeanPropertyRowMapper<Test>(Test.class),testId);
+		List<Test> tests = jdbcTemplate.query("select * from test where id=?",new BeanPropertyRowMapper<Test>(Test.class),testId);
 		return tests.isEmpty()?null:tests.get(0);
 	}
 
 	@Override
 	public Test findTestByName(String username)
 	{
-		List<Test> tests = jt.query("select * from test where username=?",new BeanPropertyRowMapper<Test>(Test.class),username);
+		List<Test> tests = jdbcTemplate.query("select * from test where username=?",new BeanPropertyRowMapper<Test>(Test.class),username);
 		if(tests.isEmpty()) 
 		{
 			return null;//没有这个名称账户
@@ -51,7 +48,7 @@ public class TestDaoImpl implements TestDao
 	@Override
 	public void updateTest(Test test)
 	{
-		jt.update("update test set username=?",test.getUsername());;
+		jdbcTemplate.update("update test set username=? where id=?",test.getUsername(),test.getId());
 	}
 	
 }
