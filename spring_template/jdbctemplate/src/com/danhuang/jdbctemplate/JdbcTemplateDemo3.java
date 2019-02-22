@@ -20,7 +20,7 @@ public class JdbcTemplateDemo3
 		//1.获取容器
 		ApplicationContext ac = new ClassPathXmlApplicationContext("bean.xml");
 		//2.根据id获取bean对象
-		TestDao testDao = (TestDao)ac.getBean("testDao");
+		TestDao testDao = (TestDao)ac.getBean("testDao2");
 		//3.执行操作
 		Test test = testDao.findTestById(14);
 		test.setUsername("aaaa");

@@ -2,7 +2,6 @@ package com.danhuang.dao.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -14,27 +13,20 @@ import com.danhuang.domain.Test;
  * @author danhuang
  *
  */
-public class TestDaoImpl implements TestDao
+public class TestDaoImpl2 extends JdbcDaoSupport implements TestDao
 {
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
-
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate)
-	{
-		this.jdbcTemplate = jdbcTemplate;
-	}
 
 	@Override
 	public Test findTestById(Integer testId)
 	{
-		List<Test> tests = jdbcTemplate.query("select * from test where id=?",new BeanPropertyRowMapper<Test>(Test.class),testId);
+		List<Test> tests = getJdbcTemplate().query("select * from test where id=?",new BeanPropertyRowMapper<Test>(Test.class),testId);
 		return tests.isEmpty()?null:tests.get(0);
 	}
 
 	@Override
 	public Test findTestByName(String username)
 	{
-		List<Test> tests = jdbcTemplate.query("select * from test where username=?",new BeanPropertyRowMapper<Test>(Test.class),username);
+		List<Test> tests = getJdbcTemplate().query("select * from test where username=?",new BeanPropertyRowMapper<Test>(Test.class),username);
 		if(tests.isEmpty()) 
 		{
 			return null;//没有这个名称账户
@@ -50,7 +42,7 @@ public class TestDaoImpl implements TestDao
 	@Override
 	public void updateTest(Test test)
 	{
-		jdbcTemplate.update("update test set username=? where id=?",test.getUsername(),test.getId());
+		getJdbcTemplate().update("update test set username=? where id=?",test.getUsername(),test.getId());
 	}
 	
 }

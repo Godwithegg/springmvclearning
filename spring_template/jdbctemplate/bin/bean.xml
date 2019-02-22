@@ -6,7 +6,11 @@
 		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
 		http://www.springframework.org/schema/aop 
 		http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
-		
+	
+	<!-- 配置dao2 -->
+	<bean id="testDao2" class="com.danhuang.dao.impl.TestDaoImpl2">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>	
 	<!-- 配置dao -->
 	<bean id="testDao" class="com.danhuang.dao.impl.TestDaoImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
