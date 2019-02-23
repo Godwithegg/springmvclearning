@@ -7,6 +7,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	注意：使用mapper代理方法开发，namespace有特殊重要的作用
 -->
 <mapper namespace="com.danhuang.mybatis.mapper.UserMapper">
+	<!-- 定义sql片段,id:sql片段的唯一标识,经验：一般是基于单表定义，这样sql片段可重用性才高 -->
+	<sql id="query_user_where">
+		<if test="userCustom!=null">
+			<if test="userCustom.sex!=null and userCustom.sex!=''">
+				and user.sex=#{userCustom.sex}
+			</if>
+			<if test="userCustom.username!=null and userCustom.username!=''">
+				and user.username LIKE '%${userCustom.username}%'
+			</if>
+		</if>
+		<if test="ids!=null">
+			<!-- 使用foreach遍历传入ids 
+				collection输入对象中的集合属性
+				item每次遍历生成的变量名
+				open：开始遍历时拼接的串
+				close：结束遍历时拼接的串
+				separator：遍历的两个对象中间需要拼接的串
+			-->
+			<!-- 实现下边的sql拼接AND (id=1 or id=10 or id=16) -->
+			<foreach collection="ids" item="id" open="and (" close=")" separator="or">
+				<!-- 每次遍历所需要拼接的串 -->
+				id=#{id}
+			</foreach>
+			<!-- 实现  “ and id IN(1,10,16)”拼接 -->
+			<!-- <foreach collection="ids" item="user_id" open="and id IN(" close=")" separator=",">
+				每个遍历需要拼接的串
+				#{user_id}
+			</foreach> -->
+		</if>
+	</sql>
 	<!-- 定义resultMap
 		将select id id_,username username_ from user和user类中属性做一个映射
 		type:resultMap最终所映射的java对象类型,可以使用别名，id就是对resultmap的唯一标识
@@ -27,7 +57,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	${userCustom.username}：取出pojo包装对象中用户名称
 	 -->
 	<select id="findUserList" parameterType="userQueryVo" resultType="userCustom">
-		select * from user where user.sex=#{userCustom.sex} and user.username like '%${userCustom.username}%'
+		select * from user 
+		<!-- where可以去掉条件中第一个and -->
+		<where>
+			<include refid="query_user_where"></include>
+			<!-- 这里还能引用其他的sql片段 -->
+		</where>
+		
 	</select>
 	
 	<!-- 用户信息综合查询总数
@@ -35,7 +71,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	resultType：输出结果类型
 	 -->
 	 <select id="findUserCount" parameterType="userQueryVo" resultType="int">
-	 	select count(*) from user where user.sex=#{userCustom.sex} and user.username like '%${userCustom.username}%'
+	 	select count(*) from user
+	 	<where>
+			<include refid="query_user_where"></include>
+		</where>
 	 </select>
 	
 	<!-- 在映射文件中配置很多的sql语句

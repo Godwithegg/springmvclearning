@@ -1,5 +1,7 @@
 package com.danhuang.mybatis.po;
 
+import java.util.List;
+
 /**
  * 用户包装类型
  * @author danhuang
@@ -7,10 +9,22 @@ package com.danhuang.mybatis.po;
  */
 public class UserQueryVo
 {
-	//在这里包装所需要的查询条件
-	
+	//传入多个id
+	private List<Integer> ids;
+
 	//用户查询条件
 	private UserCustom userCustom;
+	//在这里包装所需要的查询条件
+	
+	public List<Integer> getIds()
+	{
+		return ids;
+	}
+
+	public void setIds(List<Integer> ids)
+	{
+		this.ids = ids;
+	}
 
 	public UserCustom getUserCustom()
 	{

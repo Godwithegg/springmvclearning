@@ -3,6 +3,7 @@ package com.danhuang.mybatis.mapper;
 import static org.junit.Assert.*;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,23 +30,29 @@ public class UserMapperTest
 		sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 	}
 	//用户信息综合查询
-//	@Test
-//	public void testFindUserList() throws Exception
-//	{
-//		SqlSession sqlSession = sqlSessionFactory.openSession();
-//		//创建一个usermapper对象,mybatis自动生成mapper代理对象
-//		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-//		
-//		//创建包装对象
-//		UserQueryVo userQueryVo = new UserQueryVo();
-//		UserCustom userCustom = new UserCustom();
-//		userCustom.setSex("1");
-//		userCustom.setUsername("张三丰");
-//		userQueryVo.setUserCustom(userCustom);
-//		List<UserCustom> lists = userMapper.findUserList(userQueryVo);
-//		sqlSession.close();
-//		System.out.println(lists);
-//	}
+	@Test
+	public void testFindUserList() throws Exception
+	{
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		//创建一个usermapper对象,mybatis自动生成mapper代理对象
+		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+		
+		//创建包装对象
+		UserQueryVo userQueryVo = new UserQueryVo();
+		UserCustom userCustom = new UserCustom();
+		userCustom.setSex("1");
+		userCustom.setUsername("小明");
+		//传入多个id
+		List<Integer> ids = new ArrayList<Integer>();
+		ids.add(1);
+		ids.add(10);
+		ids.add(16);
+		userQueryVo.setIds(ids);
+		userQueryVo.setUserCustom(userCustom);
+		List<UserCustom> lists = userMapper.findUserList(userQueryVo);
+		sqlSession.close();
+		System.out.println(lists);
+	}
 	
 //	@Test
 //	public void testFindUserCount() throws Exception
@@ -76,16 +83,16 @@ public class UserMapperTest
 //		System.out.println(user);
 //	}
 	
-	@Test
-	public void testFindUserByIdResultMap() throws Exception
-	{
-		SqlSession sqlSession = sqlSessionFactory.openSession();
-		//创建一个usermapper对象,mybatis自动生成mapper代理对象
-		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-		User user = userMapper.findUserByIdResultMap(1);
-		sqlSession.close();
-		System.out.println(user);
-	}
+//	@Test
+//	public void testFindUserByIdResultMap() throws Exception
+//	{
+//		SqlSession sqlSession = sqlSessionFactory.openSession();
+//		//创建一个usermapper对象,mybatis自动生成mapper代理对象
+//		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+//		User user = userMapper.findUserByIdResultMap(1);
+//		sqlSession.close();
+//		System.out.println(user);
+//	}
 	
 //	@Test
 //	public void testFindUserByName() throws Exception
