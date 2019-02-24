@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace命名空间，作用就是对sql进行分类化管理，理解sql隔离 
+	注意：使用mapper代理方法开发，namespace有特殊重要的作用
+-->
+<mapper namespace="com.danhuang.mybatis.mapper.OrdersMapperCustom">
+
+	<!-- 订单关联查询用户的resultmap
+		将整个结果映射到com.danhuang.mybatis.po.Orders中
+	 -->
+	<resultMap type="com.danhuang.mybatis.po.Orders" id="ordersUserResultMap">
+		<!-- 配置映射的订单信息 -->
+		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="number" property="number"/>
+		<result column="createtime" property="createtime"/>
+		<result column="note" property="note"/>
+		<!-- 配置映射的用户信息,association:用于映射关联查询单个对象的信息，property关联信息映射到Orders中哪个属性 -->
+		<association property="user" javaType="com.danhuang.mybatis.po.User">
+			<!-- id:关联查询用户的唯一标识,column指定唯一标识用户信息的列,javaType映射到user的哪个属性 -->
+			<id column="user_id" property="id"/>
+			<result column="username" property="username"/>
+			<result column="sex" property="sex"/>
+			<result column="address" property="address"/>
+		</association>
+	</resultMap>
+	<!-- 查询订单关联查询用户信息 -->
+	<select id="findOrdersUser" resultType="com.danhuang.mybatis.po.OrdersCustom">
+		SELECT
+		orders.*,
+		USER.username,
+		USER.sex,
+		USER.address
+		FROM
+		orders,
+		USER
+		WHERE orders.user_id = user.id
+	</select>
+	<!-- 查询订单关联查询用户信息，使用resultmap -->
+	<select id="findOrdersUserResultMap" resultMap="ordersUserResultMap">
+		SELECT
+		orders.*,
+		USER.username,
+		USER.sex,
+		USER.address
+		FROM
+		orders,
+		USER
+		WHERE orders.user_id = user.id
+	</select>
+</mapper>
