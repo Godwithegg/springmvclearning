@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import com.danhuang.mybatis.po.Orders;
 import com.danhuang.mybatis.po.OrdersCustom;
+import com.danhuang.mybatis.po.User;
 
 public class OrdersMapperCustomTest
 {
@@ -37,14 +38,39 @@ public class OrdersMapperCustomTest
 //		sqlSession.close();
 //	}
 	
+//	@Test
+//	public void testFindOrdersUserResultMap() throws Exception
+//	{
+//		SqlSession sqlSession = sqlSessionFactory.openSession();
+//		OrdersMapperCustom ordersMapperCustom = (OrdersMapperCustom) sqlSession.getMapper(OrdersMapperCustom.class);
+//		List<Orders> list = ordersMapperCustom.findOrdersUserResultMap();
+//		System.out.println(list);
+//		sqlSession.close();
+//	}
+	
+//	@Test
+//	public void testFindOrdersAndOrderDetailResultMap() throws Exception
+//	{
+//		SqlSession sqlSession = sqlSessionFactory.openSession();
+//		OrdersMapperCustom ordersMapperCustom = (OrdersMapperCustom) sqlSession.getMapper(OrdersMapperCustom.class);
+//		List<Orders> list = ordersMapperCustom.findOrdersAndOrderDetailResultMap();
+//		for (Orders orders : list)
+//		{
+//			System.out.println(orders);
+//		}
+//		sqlSession.close();
+//	}
+	
 	@Test
-	public void testFindOrdersUserResultMap() throws Exception
+	public void testFindOrdersAndOrderDetailResultMap() throws Exception
 	{
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		OrdersMapperCustom ordersMapperCustom = (OrdersMapperCustom) sqlSession.getMapper(OrdersMapperCustom.class);
-		List<Orders> list = ordersMapperCustom.findOrdersUserResultMap();
-		System.out.println(list);
+		List<User> list = ordersMapperCustom.findUserAndItemsResultMap();
+		for (User user : list)
+		{
+			System.out.println(user);
+		}
 		sqlSession.close();
 	}
-
 }
