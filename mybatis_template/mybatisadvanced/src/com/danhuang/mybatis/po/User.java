@@ -1,5 +1,6 @@
 package com.danhuang.mybatis.po;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * @author danhuang
  *
  */
-public class User 
+public class User implements Serializable
 {
 	//属性名和数据库表的字段对应
 	private int id;

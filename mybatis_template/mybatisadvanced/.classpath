@@ -16,5 +16,7 @@
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.7.5.jar"/>
 	<classpathentry kind="lib" path="lib/mybatis-3.2.7.jar"/>
 	<classpathentry kind="lib" path="lib/junit-4.9.jar"/>
+	<classpathentry kind="lib" path="lib/ehcache-core-2.6.5.jar"/>
+	<classpathentry kind="lib" path="lib/mybatis-ehcache-1.0.2.jar" sourcepath="D:/javaweb后端进程/笔记和源码/day02/code/mybatis1222/lib/ehcache-core-2.6.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
