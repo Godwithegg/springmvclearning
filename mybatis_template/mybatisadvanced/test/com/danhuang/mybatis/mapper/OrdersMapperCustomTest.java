@@ -61,15 +61,28 @@ public class OrdersMapperCustomTest
 //		sqlSession.close();
 //	}
 	
+//	@Test
+//	public void testFindOrdersAndOrderDetailResultMap() throws Exception
+//	{
+//		SqlSession sqlSession = sqlSessionFactory.openSession();
+//		OrdersMapperCustom ordersMapperCustom = (OrdersMapperCustom) sqlSession.getMapper(OrdersMapperCustom.class);
+//		List<User> list = ordersMapperCustom.findUserAndItemsResultMap();
+// 		System.out.println(list);
+//		sqlSession.close();
+//	}
+	
+	//查询订单关联查询用户,用户信息是延迟加载
 	@Test
-	public void testFindOrdersAndOrderDetailResultMap() throws Exception
+	public void testFindOrdersUserLazyLoading() throws Exception
 	{
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		OrdersMapperCustom ordersMapperCustom = (OrdersMapperCustom) sqlSession.getMapper(OrdersMapperCustom.class);
-		List<User> list = ordersMapperCustom.findUserAndItemsResultMap();
-		for (User user : list)
+		List<Orders> list = ordersMapperCustom.findOrdersUserLazyLoading();
+ 		for (Orders orders : list)
 		{
-			System.out.println(user);
+			//执行getUser（）去查询用户信息，即按需加载
+ 			User user = orders.getUser();
+ 			System.out.println(user);
 		}
 		sqlSession.close();
 	}

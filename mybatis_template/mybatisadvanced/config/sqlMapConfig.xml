@@ -10,7 +10,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</properties>
 	
 	<!-- 全局配置参数，需要再用 -->
-	<!-- <settings></settings> -->
+	<settings>
+	<!-- 打开延迟加载的开关 -->
+		<setting name="lazyLoadingEnabled" value="true"/>
+	<!-- ，将积极加载改为消极加载，即按需加载 -->
+		<setting name="aggressiveLazyLoading" value="false"/>
+	</settings>
 	<!-- 自定义别名，针对单个 -->
 	<!--<typeAliases>
 		<typeAlias type="com.danhuang.mybatis.po.User" alias="user"/>
