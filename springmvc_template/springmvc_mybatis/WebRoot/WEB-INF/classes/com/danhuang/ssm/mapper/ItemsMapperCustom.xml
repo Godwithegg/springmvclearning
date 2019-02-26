@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.danhuang.ssm.mapper.ItemsMapperCustom" >
+    <!-- 定义商品查询的sql片段 ,就是商品查询条件-->
+    <sql id="query_items_where">
+    <!-- 使用动态sql,通过if判断，满足条件进行sql拼接 -->
+    <!-- 商品的查询条件通过ItemsQueryVo包装对象中的itemsCustom属性传递 -->
+    	<if test="itemsCustom != null">
+    		<if test="itemsCustom.name != null and itemsCustom.name !=''">
+    		    items.name like '%${itemsCustom.name}%'
+    		</if>
+    	</if>
+    </sql>
+    
+    <!-- 商品列表的查询
+    	parameterType建议传入包装对象（包装了查询条件
+     -->
+    <select id="findItemsList" parameterType="com.danhuang.ssm.po.ItemsQueryVo" resultType="com.danhuang.ssm.po.ItemsCustom">
+    	select * from items 
+    	<where>
+    		<include refid="query_items_where"></include>
+    	</where>
+    </select>
+
+</mapper>
