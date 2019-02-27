@@ -9,7 +9,7 @@
 <title>查询商品列表</title>
 </head>
 <body> 
-<form action="${pageContext.request.contextPath }/item/queryItem.action" method="post">
+<form action="${pageContext.request.contextPath }/items/queryItem.action" method="post">
 查询条件：
 <table width="100%" border=1>
 <tr>
