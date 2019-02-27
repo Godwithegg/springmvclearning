@@ -34,9 +34,14 @@ public class ItemsServiceImpl implements ItemsService
 		Items items = itemsMapper.selectByPrimaryKey(id);
 		//中间对商品信息进行处理...
 		//返回ItemsCustom
-		ItemsCustom itemsCustom = new ItemsCustom();
+		ItemsCustom itemsCustom = null;
 		//将items内容拷贝到itemscustom
-		BeanUtils.copyProperties(items, itemsCustom);
+		if(items != null)
+		{
+			itemsCustom = new ItemsCustom();
+			BeanUtils.copyProperties(items, itemsCustom);
+		}
+
 		return itemsCustom;
 	}
 	@Override
@@ -49,6 +54,16 @@ public class ItemsServiceImpl implements ItemsService
 		//updateByPrimaryKeyWithBLOBs要求必须传入id
 		itemsCustom.setId(id);
 		itemsMapper.updateByPrimaryKeyWithBLOBs(itemsCustom);
+	}
+	@Override
+	public void deleteItems(Integer[] items_id) throws Exception
+	{
+		for (Integer integer : items_id)
+		{
+			itemsMapper.deleteByPrimaryKey(integer);
+		}
+		
+		
 	}
 	
 }

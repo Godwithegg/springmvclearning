@@ -2,15 +2,26 @@ package com.danhuang.ssm.po;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import com.danhuang.ssm.controller.validation.ValidGroup1;
+import com.danhuang.ssm.controller.validation.ValidGroup2;
+
 public class Items {
     private Integer id;
 
+    //校验名称在1到30字符中间
+    //message是提示校验出错显示的信息
+    //groups标识此校验属于哪个分组，group可以定义多个分组
+    @Size(min=1,max=10,message="{items.name.length.error}",groups= {ValidGroup1.class})
     private String name;
 
     private Float price;
 
     private String pic;
-
+    //非空校验
+    @NotNull(message="{items.createtime.isNULL}",groups= {ValidGroup2.class})
     private Date createtime;
 
     private String detail;

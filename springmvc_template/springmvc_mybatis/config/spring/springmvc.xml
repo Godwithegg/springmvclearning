@@ -14,9 +14,45 @@
 		http://www.springframework.org/schema/tx/spring-tx-4.2.xsd ">
 		
 	<context:component-scan base-package="com.danhuang.ssm.controller"></context:component-scan>
-	<mvc:annotation-driven/>
+	<mvc:annotation-driven conversion-service="conversionService" validator="validator"/>
+	
+	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/"/>
 		<property name="suffix" value=".jsp"/>
 	</bean>
+	<!-- 自定义参数绑定 -->
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<!-- 转换器 -->
+		<property name="converters">
+			<list>
+				<!-- 日期类型转换 -->
+				<bean class="com.danhuang.ssm.controller.converter.CustomDateConverter"></bean>
+				<!-- 其他转换 -->
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 校验器 -->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<!-- 校验器 -->
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+		<!-- 指定校验使用的资源文件，如果不指定则默认使用classpath下的validationmessages.properties -->
+		<property name="validationMessageSource" ref="messageSource"></property>
+	</bean>
+	<!-- 校验错误信息配置 -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<!-- 资源文件名 -->
+		<property name="basenames">
+			<list>
+				<value>classpath:CustomValidationMessages</value>
+			</list>
+		</property>
+		<!-- 资源文件格式 -->
+		<property name="defaultEncoding" value="utf-8"></property>
+		<!-- 对资源文件内容缓存事件，单位秒 -->
+		<property name="cacheSeconds" value="120"></property>
+	</bean>
+	<!-- 全局异常处理器 ,只要实现handlerexceptionresolver接口就可以实现全局异常处理，只能有一个-->
+	<bean class="com.danhuang.ssm.exception.CustomExceptionResovler"></bean>
 </beans>
