@@ -65,4 +65,22 @@
 			<value>5242880</value>
 		</property>
 	</bean>
+	
+	<!-- 全局拦截器配置 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<!-- /**表示所有url包括子url路径 -->
+			<mvc:mapping path="/**"/>
+			<bean class="com.danhuang.ssm.interceptor.LoginInterceptor"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<!-- /**表示所有url包括子url路径 -->
+			<mvc:mapping path="/**"/>
+			<bean class="com.danhuang.ssm.interceptor.HandlerInterceptor1"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="com.danhuang.ssm.interceptor.HandlerInterceptor2"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 </beans>
