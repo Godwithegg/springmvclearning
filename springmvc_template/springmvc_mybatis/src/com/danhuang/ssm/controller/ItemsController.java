@@ -2,10 +2,12 @@ package com.danhuang.ssm.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,9 +19,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.danhuang.ssm.controller.validation.ValidGroup1;
@@ -106,13 +111,23 @@ public class ItemsController
 		return "items/editItems";
 	}
 	
+	//查询商品信息，输出json
+	@RequestMapping("/itemsView/{id}")
+	public @ResponseBody ItemsCustom itemsView(@PathVariable("id") Integer id) throws Exception
+	{
+		//调用service查询商品信息
+		ItemsCustom itemsCustom = itemsService.findItemsById(id);
+		return itemsCustom;
+	}
+	
 	//商品信息修改提交
 	//在需要校验的pojo前边添加@Validated，在需要校验的pojo后边添加BindingResult bindingResult接收校验出错信息
 	//注意：@Validated和BindingResult bindingResult是配对出现，而且@Validated是在BindingResult的前面
 	//@ModelAttribute可以指定pojo回显到页面在request中的key
 	@RequestMapping("/editItemsSubmit")
 	public String editItemsSubmit(Model model,HttpServletRequest request,Integer id,@ModelAttribute("items") @Validated(value= {ValidGroup1.class,ValidGroup2.class}) ItemsCustom itemsCustom,
-			BindingResult bindingResult) throws Exception
+			BindingResult bindingResult,MultipartFile items_pic//接收商品图片
+			) throws Exception
 	{
 		//获取校验的错误信息
 		if(bindingResult.hasErrors())
@@ -133,6 +148,25 @@ public class ItemsController
 			//出错重新到商品的修改页面
 			return "items/editItems";
 		}
+		//原始名称
+		String originalFilename = items_pic.getOriginalFilename();
+		System.out.println(originalFilename);
+		//上传图片
+		if(items_pic != null && originalFilename.length()>0 && originalFilename != null)
+		{
+			//存储图片的物理路径
+			String pic_path = "D:\\github\\springmvclearning\\springmvc_template\\springmvc_mybatis\\image\\";
+			//新的图片名称
+			String newFileName = UUID.randomUUID() + originalFilename.substring(originalFilename.lastIndexOf("."));
+			File newFile = new File(pic_path+newFileName);
+			//将内存中的数据写入磁盘
+			items_pic.transferTo(newFile);
+			//将新的图片名称写到itemsCustom中
+			itemsCustom.setPic(newFileName);
+			System.out.println(newFileName);
+		}
+		 
+		
 		//调用service更新商品信息，页面需要将商品信息传到此方法
 		itemsService.updateItems(id, itemsCustom);
 		//....

@@ -53,7 +53,7 @@ public class ItemsServiceImpl implements ItemsService
 		//更新商品信息updateByPrimaryKeyWithBLOBs,可以根据id更新items表中所有字段，包括大文本类型
 		//updateByPrimaryKeyWithBLOBs要求必须传入id
 		itemsCustom.setId(id);
-		itemsMapper.updateByPrimaryKeyWithBLOBs(itemsCustom);
+		itemsMapper.updateByPrimaryKeySelective(itemsCustom);
 	}
 	@Override
 	public void deleteItems(Integer[] items_id) throws Exception

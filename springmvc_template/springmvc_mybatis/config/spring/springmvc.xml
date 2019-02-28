@@ -16,6 +16,8 @@
 	<context:component-scan base-package="com.danhuang.ssm.controller"></context:component-scan>
 	<mvc:annotation-driven conversion-service="conversionService" validator="validator"/>
 	
+	<!-- 静待资源解析,包括js.css.img... -->
+	<mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
 	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/"/>
@@ -55,4 +57,12 @@
 	</bean>
 	<!-- 全局异常处理器 ,只要实现handlerexceptionresolver接口就可以实现全局异常处理，只能有一个-->
 	<bean class="com.danhuang.ssm.exception.CustomExceptionResovler"></bean>
+
+	<!-- 文件上传 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设置上传文件的最大尺寸为5MB -->
+		<property name="maxUploadSize">
+			<value>5242880</value>
+		</property>
+	</bean>
 </beans>
